@@ -4,6 +4,7 @@ export default {
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    '^./App.css$': '<rootDir>/src/__mocks__/styleMock.js',
   },
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
   moduleDirectories: ['node_modules', 'src'],
