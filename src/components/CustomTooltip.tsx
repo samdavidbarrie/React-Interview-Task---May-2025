@@ -20,14 +20,22 @@ export function CustomTooltip({
     const weekStart = parse(week, DATE_FORMAT_DISPLAY, new Date())
     const d = addDays(weekStart, idx)
     const fullDate = format(d, DATE_FORMAT_API)
+    // Inline style ensures tooltip always visible
     return (
-      <div className="bg-[#1e293b] text-white rounded-lg px-4 py-2 shadow-lg text-sm">
-        <div className="font-semibold mb-1">
-          {payload[0].payload.day}{' '}
-          <span className="text-xs text-gray-400">({fullDate})</span>
-        </div>
+      <div
+        style={{
+          backgroundColor: '#1e293b',
+          opacity: 1,
+          pointerEvents: 'auto',
+          borderRadius: '0.75rem', // matches Tailwind's rounded-xl
+          padding: '0.75rem 1.5rem', // matches Tailwind's px-6 py-3
+        }}
+        className="text-white shadow-lg text-sm flex flex-col space-y-1 min-w-[120px]"
+      >
+        <div className="font-semibold">{payload[0].payload.day}</div>
+        <div className="text-xs text-gray-400">{fullDate}</div>
         <div>
-          Sightings:{' '}
+          <span className="text-gray-300">Sightings:</span>{' '}
           <span className="font-bold">{payload[0].payload.sightings}</span>
         </div>
       </div>
