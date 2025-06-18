@@ -1,5 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import App from './App'
+import { Provider } from 'react-redux'
+import { store } from './store'
 
 // polyfill for Jest (jsdom)
 class MockResponse {
@@ -50,11 +52,19 @@ describe('App', () => {
     global.fetch.mockRestore && global.fetch.mockRestore()
   })
   it('renders loading state initially', () => {
-    render(<App />)
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+    )
     expect(screen.getByText(/loading/i)).toBeInTheDocument()
   })
   it('renders dashboard after fetch', async () => {
-    render(<App />)
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+    )
     expect(
       await screen.findByText(/ufo sightings dashboard/i),
     ).toBeInTheDocument()

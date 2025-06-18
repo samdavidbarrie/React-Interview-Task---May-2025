@@ -1,34 +1,15 @@
-import { useState, useEffect } from 'react'
-import { startOfWeek, addDays, isValid, parse, format } from 'date-fns'
+import { useEffect } from 'react'
+import { addDays, isValid, parse, format } from 'date-fns'
 import './App.css'
 import { Container } from './layout'
 import { SightingsChart } from './components/SightingsChart'
 import { WeekNavigation } from './components/WeekNavigation'
 import { DATE_FORMAT_API, DATE_FORMAT_DISPLAY, daysOfWeek } from './constants'
-import type { Sighting, WeekData } from './types'
+import { formatDate } from './dateUtils'
+import type { WeekData } from './types'
+import { useAppDispatch, useAppSelector } from './store/hooks'
+import { fetchSightings, setCurrentWeekIndex } from './store/sightingsSlice'
 
-const API_URL =
-  'https://my-json-server.typicode.com/Louis-Procode/ufo-Sightings/ufoSightings'
-
-function getMonday(dateStr: string) {
-  const date = parse(dateStr, DATE_FORMAT_API, new Date())
-  return startOfWeek(date, { weekStartsOn: 1 })
-}
-function formatDate(date: Date) {
-  return format(date, DATE_FORMAT_DISPLAY)
-}
-function groupByWeek(data: Sighting[]) {
-  const weeks: Record<string, Sighting[]> = {}
-  data.forEach((item) => {
-    if (!item.date) return
-    const dateObj = parse(item.date, DATE_FORMAT_API, new Date())
-    if (!isValid(dateObj)) return
-    const monday = formatDate(getMonday(item.date))
-    if (!weeks[monday]) weeks[monday] = []
-    weeks[monday].push(item)
-  })
-  return weeks
-}
 function getWeekRange(monday: string) {
   const start = parse(monday, DATE_FORMAT_DISPLAY, new Date())
   if (!isValid(start)) return ''
@@ -37,66 +18,26 @@ function getWeekRange(monday: string) {
 }
 
 function App() {
-  const [data, setData] = useState<Sighting[]>([])
-  const [weeks, setWeeks] = useState<string[]>([])
-  const [weekData, setWeekData] = useState<WeekData[]>([])
-  const [currentWeekIndex, setCurrentWeekIndex] = useState(0)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
+  const dispatch = useAppDispatch()
+  const { weeks, grouped, currentWeekIndex, loading, error } = useAppSelector(
+    (state) => state.sightings,
+  )
 
   useEffect(() => {
-    setLoading(true)
-    ;(async () => {
-      try {
-        const res = await fetch(API_URL)
-        let json = null
-        let errorMsg = ''
-        try {
-          json = await res.json()
-        } catch {
-          errorMsg = 'Invalid JSON response'
-        }
-        if (!res.ok) {
-          setError(errorMsg || `Network error: ${res.status}`)
-          setLoading(false)
-          return
-        }
-        if (!json) {
-          setError(errorMsg || 'No data received')
-          setLoading(false)
-          return
-        }
-        setData(json)
-        const grouped = groupByWeek(json)
-        const weekKeys = Object.keys(grouped).sort()
-        setWeeks(weekKeys)
-        setCurrentWeekIndex(weekKeys.length - 1) // show latest week
-        setLoading(false)
-      } catch (err) {
-        setError(
-          (err instanceof Error && err.message) || 'Failed to fetch data',
-        )
-        setLoading(false)
-      }
-    })()
-  }, [])
+    dispatch(fetchSightings())
+  }, [dispatch])
 
-  useEffect(() => {
-    if (!weeks.length) return
+  let weekData: WeekData[] = []
+  if (weeks.length) {
     const week = weeks[currentWeekIndex]
     const weekStart = parse(week, DATE_FORMAT_DISPLAY, new Date())
-    if (!week || !isValid(weekStart)) {
-      setWeekData([])
-      return
-    }
-    const grouped = groupByWeek(data)
     const weekSightings = grouped[week] || []
     const daily: Record<string, number> = {}
     weekSightings.forEach((item) => {
       if (!item.date) return
       daily[item.date] = (daily[item.date] || 0) + item.sightings
     })
-    const chartData = Array.from({ length: 7 }).map((_, idx) => {
+    weekData = Array.from({ length: 7 }).map((_, idx) => {
       const d = addDays(weekStart, idx)
       const origDateStr = format(d, DATE_FORMAT_API)
       return {
@@ -104,8 +45,7 @@ function App() {
         sightings: daily[origDateStr] || 0,
       }
     })
-    setWeekData(chartData)
-  }, [weeks, currentWeekIndex, data])
+  }
 
   if (loading)
     return (
@@ -142,8 +82,8 @@ function App() {
       <WeekNavigation
         currentWeekIndex={currentWeekIndex}
         weeksCount={weeks.length}
-        onPrev={() => setCurrentWeekIndex((i) => i - 1)}
-        onNext={() => setCurrentWeekIndex((i) => i + 1)}
+        onPrev={() => dispatch(setCurrentWeekIndex(currentWeekIndex - 1))}
+        onNext={() => dispatch(setCurrentWeekIndex(currentWeekIndex + 1))}
       />
     </Container>
   )
