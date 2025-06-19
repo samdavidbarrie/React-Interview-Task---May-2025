@@ -2,6 +2,9 @@ import { render } from '@testing-library/react'
 import { SightingsChart } from './SightingsChart'
 import type { WeekData } from '../types'
 
+// Tests for the SightingsChart component.
+// These tests ensure the chart renders correctly with various data, is responsive, and handles edge cases.
+
 describe('SightingsChart', () => {
   it('renders with empty data', () => {
     const { container } = render(

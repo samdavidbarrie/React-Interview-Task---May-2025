@@ -1,5 +1,9 @@
 import reducer, { setCurrentWeekIndex, fetchSightings } from './sightingsSlice'
 
+// Tests for the sightingsSlice Redux logic.
+// These tests ensure that our reducers and async thunks behave as expected, covering state transitions for week navigation and data fetching.
+// This helps guarantee that our global state management is reliable, independent of the UI.
+
 describe('sightingsSlice', () => {
   it('should handle setCurrentWeekIndex', () => {
     const initialState = {

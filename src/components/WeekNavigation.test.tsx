@@ -1,6 +1,9 @@
 import { render, screen, fireEvent } from '@testing-library/react'
 import { WeekNavigation } from './WeekNavigation'
 
+// Tests for the WeekNavigation component.
+// These tests verify that week navigation buttons work as intended and are disabled at the correct boundaries.
+
 describe('WeekNavigation', () => {
   it('renders navigation buttons', () => {
     render(

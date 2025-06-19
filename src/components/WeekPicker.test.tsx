@@ -3,6 +3,9 @@ import { WeekPicker } from './WeekPicker'
 import { getFriendlyWeekRange } from '../dateUtils'
 import type { Sighting } from '../types'
 
+// Tests for the WeekPicker component.
+// These tests check that the week picker dropdown renders, lists weeks, and handles selection.
+
 describe('WeekPicker', () => {
   const weeks = ['10/06/2025', '17/06/2025']
   const grouped = {

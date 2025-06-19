@@ -1,6 +1,10 @@
 import { render } from '@testing-library/react'
 import { CustomTooltip } from './CustomTooltip'
 
+// Tests for the CustomTooltip component.
+// These tests verify that the tooltip displays correct information for each day and week, ensuring accurate data presentation in the chart.
+// This helps prevent regressions in the tooltip UI.
+
 describe('CustomTooltip', () => {
   it('renders nothing when inactive', () => {
     const { container } = render(

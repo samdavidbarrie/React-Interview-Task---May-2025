@@ -3,6 +3,9 @@ import App from './App'
 import { Provider } from 'react-redux'
 import { store } from './store'
 
+// Integration tests for the main App component.
+// These tests cover the overall user flow, including data fetching, error handling, and UI integration.
+
 // polyfill for Jest (jsdom)
 class MockResponse {
   ok: boolean
