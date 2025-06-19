@@ -6,7 +6,6 @@ import { Header } from './components/Header'
 import { WeekPickerRow } from './components/WeekPickerRow'
 import { ArrowKeyTip } from './components/ArrowKeyTip'
 import { MainContent } from './components/MainContent'
-import { LoadingState, ErrorState, EmptyState } from './components/States'
 import { DATE_FORMAT_API, DATE_FORMAT_DISPLAY, daysOfWeek } from './constants'
 import type { WeekData } from './types'
 import { useAppDispatch, useAppSelector } from './store/hooks'
@@ -14,7 +13,7 @@ import { fetchSightings, setCurrentWeekIndex } from './store/sightingsSlice'
 
 function App() {
   const dispatch = useAppDispatch()
-  const { weeks, grouped, currentWeekIndex, loading, error } = useAppSelector(
+  const { weeks, grouped, currentWeekIndex } = useAppSelector(
     (state) => state.sightings,
   )
 
@@ -59,9 +58,6 @@ function App() {
     })
   }
 
-  if (loading) return <LoadingState />
-  if (error) return <ErrorState error={error} />
-  if (!weeks.length) return <EmptyState />
   return (
     <Container>
       <Header />

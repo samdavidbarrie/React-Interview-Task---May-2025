@@ -35,7 +35,7 @@ export function WeekPicker({
         tabIndex={0}
         aria-label="Select week"
       >
-        {getFriendlyWeekRange(weeks[currentWeekIndex])}
+        {weeks.length > 0 && weeks[currentWeekIndex] ? getFriendlyWeekRange(weeks[currentWeekIndex]) : 'No week'}
         <span
           className={`transition-transform duration-200 ${showDropdown ? 'rotate-180' : ''}`}
           aria-hidden="true"
@@ -50,7 +50,7 @@ export function WeekPicker({
           className={`${DROPDOWN_LIST} ${isMobile ? 'right-0 left-auto min-w-[160px]' : ''}`}
           onBlur={() => setShowDropdown(false)}
         >
-          {weeks.map((week: string, idx: number) => {
+          {weeks.length > 0 ? weeks.map((week: string, idx: number) => {
             const totalSightings = (grouped[week] || []).reduce(
               (sum: number, s: Sighting) => sum + s.sightings,
               0,
@@ -76,7 +76,7 @@ export function WeekPicker({
                 )}
               </li>
             )
-          })}
+          }) : null}
         </ul>
       )}
     </div>

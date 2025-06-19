@@ -1,8 +1,9 @@
+import type { FC } from 'react'
 import { WeekPicker } from './WeekPicker'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { setCurrentWeekIndex } from '../store/sightingsSlice'
 
-export function WeekPickerRow() {
+export const WeekPickerRow: FC = () => {
   const dispatch = useAppDispatch()
   const { weeks, grouped, currentWeekIndex } = useAppSelector(
     (state) => state.sightings,
