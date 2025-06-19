@@ -4,7 +4,7 @@ A React + TypeScript dashboard for visualizing UFO sightings by week, built with
 
 ## Demo
 
-<img width="1512" alt="Screenshot 2025-06-19 at 02 11 11" src="https://github.com/user-attachments/assets/370d83d5-5de1-4fec-b8d1-6a2c54b8a10d" />
+<img width="1512" alt="Screenshot 2025-06-19 at 02 12 21" src="https://github.com/user-attachments/assets/88c29124-f60f-4fd9-9782-c36464ec1956" />
 
 ## Features
 
