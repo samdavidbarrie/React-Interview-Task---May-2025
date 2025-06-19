@@ -2,13 +2,15 @@ import { useEffect } from 'react'
 import { addDays, parse, format } from 'date-fns'
 import './App.css'
 import { Container } from './layout'
-import { SightingsChart } from './components/SightingsChart'
-import { WeekNavigation } from './components/WeekNavigation'
+import { Header } from './components/Header'
+import { WeekPickerRow } from './components/WeekPickerRow'
+import { ArrowKeyTip } from './components/ArrowKeyTip'
+import { MainContent } from './components/MainContent'
+import { LoadingState, ErrorState, EmptyState } from './components/States'
 import { DATE_FORMAT_API, DATE_FORMAT_DISPLAY, daysOfWeek } from './constants'
 import type { WeekData } from './types'
 import { useAppDispatch, useAppSelector } from './store/hooks'
 import { fetchSightings, setCurrentWeekIndex } from './store/sightingsSlice'
-import { WeekPicker } from './components/WeekPicker'
 
 function App() {
   const dispatch = useAppDispatch()
@@ -57,65 +59,15 @@ function App() {
     })
   }
 
-  if (loading)
-    return (
-      <div className="flex items-center justify-center h-screen">
-        Loading...
-      </div>
-    )
-  if (error)
-    return (
-      <div className="flex items-center justify-center h-screen text-red-500">
-        {error}
-      </div>
-    )
-  if (!weeks.length)
-    return (
-      <div className="flex items-center justify-center h-screen">
-        No data available
-      </div>
-    )
-
+  if (loading) return <LoadingState />
+  if (error) return <ErrorState error={error} />
+  if (!weeks.length) return <EmptyState />
   return (
     <Container>
-      <h1 className="text-4xl font-bold mb-2 leading-tight">
-        UFO Sightings Dashboard
-      </h1>
-      <div className="mb-4 text-gray-300 text-lg flex items-center justify-center gap-4 relative">
-        <span role="img" aria-label="calendar">
-          📅
-        </span>
-        <WeekPicker
-          weeks={weeks}
-          grouped={grouped}
-          currentWeekIndex={currentWeekIndex}
-          onSelect={(idx) => dispatch(setCurrentWeekIndex(idx))}
-        />
-      </div>
-      <SightingsChart
-        weekData={weekData}
-        weeks={weeks}
-        currentWeekIndex={currentWeekIndex}
-      />
-      <WeekNavigation
-        currentWeekIndex={currentWeekIndex}
-        weeksCount={weeks.length}
-        onPrev={() => dispatch(setCurrentWeekIndex(currentWeekIndex - 1))}
-        onNext={() => dispatch(setCurrentWeekIndex(currentWeekIndex + 1))}
-      />
-      <div className="flex justify-center mt-2 mb-4">
-        <span className="text-gray-400 text-sm flex items-center gap-1 select-none">
-          <span className="font-bold text-green-300">Pssst…</span>
-          <span>Use arrow keys</span>
-          <span role="img" aria-label="left arrow">
-            ⬅️
-          </span>
-          <span role="img" aria-label="right arrow">
-            ➡️
-          </span>
-          <span>to change week</span>
-        </span>
-      </div>
+      <Header />
+      <WeekPickerRow />
+      <MainContent weekData={weekData} />
+      <ArrowKeyTip />
     </Container>
   )
 }

@@ -1,6 +1,8 @@
-import React, { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { getFriendlyWeekRange } from '../dateUtils'
 import type { Sighting } from '../types'
+import { useIsMobile } from '../useIsMobile'
+import { DROPDOWN_BTN, DROPDOWN_LIST, DROPDOWN_ITEM } from '../classNames'
 
 interface WeekPickerProps {
   weeks: string[]
@@ -9,14 +11,15 @@ interface WeekPickerProps {
   onSelect: (idx: number) => void
 }
 
-export const WeekPicker: React.FC<WeekPickerProps> = ({
+export function WeekPicker({
   weeks,
   grouped,
   currentWeekIndex,
   onSelect,
-}) => {
+}: WeekPickerProps) {
   const [showDropdown, setShowDropdown] = useState(false)
   const dropdownRef = useRef<HTMLUListElement | null>(null)
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     if (showDropdown && dropdownRef.current) {
@@ -27,7 +30,7 @@ export const WeekPicker: React.FC<WeekPickerProps> = ({
   return (
     <div className="relative">
       <button
-        className="font-semibold text-green-300 bg-transparent border-none cursor-pointer p-2 rounded flex items-center gap-2 transition-colors duration-150 hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        className={DROPDOWN_BTN}
         onClick={() => setShowDropdown((v) => !v)}
         tabIndex={0}
         aria-label="Select week"
@@ -44,31 +47,33 @@ export const WeekPicker: React.FC<WeekPickerProps> = ({
         <ul
           ref={dropdownRef}
           tabIndex={-1}
-          className="absolute left-0 top-full mt-1 bg-gray-800 text-white rounded shadow-lg border border-gray-600 z-10 w-max min-w-[220px] max-h-60 overflow-y-auto py-1"
+          className={`${DROPDOWN_LIST} ${isMobile ? 'right-0 left-auto min-w-[160px]' : ''}`}
           onBlur={() => setShowDropdown(false)}
         >
           {weeks.map((week: string, idx: number) => {
             const totalSightings = (grouped[week] || []).reduce(
-              (sum: number, s: { sightings: number }) => sum + s.sightings,
+              (sum: number, s: Sighting) => sum + s.sightings,
               0,
             )
             return (
               <li
                 key={week}
-                className={`px-4 py-2 cursor-pointer hover:bg-blue-600 text-left justify-start w-full ${
+                className={`${DROPDOWN_ITEM} ${
                   idx === currentWeekIndex
                     ? 'bg-blue-900 text-green-300 font-bold'
                     : ''
-                }`}
+                } ${isMobile ? 'flex flex-col items-start' : ''}`}
                 onClick={() => {
                   onSelect(idx)
                   setShowDropdown(false)
                 }}
               >
                 <span>{getFriendlyWeekRange(week)}</span>
-                <span className="ml-2 text-xs text-gray-400">
-                  ({totalSightings} sightings)
-                </span>
+                {!isMobile && (
+                  <span className="ml-2 text-xs text-gray-400">
+                    ({totalSightings} sightings)
+                  </span>
+                )}
               </li>
             )
           })}

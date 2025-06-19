@@ -1,9 +1,14 @@
 import { daysOfWeek, DATE_FORMAT_API, DATE_FORMAT_DISPLAY } from '../constants'
 import { addDays, format, parse } from 'date-fns'
+import type { WeekData } from '../types'
+
+interface TooltipPayload {
+  payload: WeekData
+}
 
 interface CustomTooltipProps {
   active?: boolean
-  payload?: any[]
+  payload?: TooltipPayload[]
   weeks: string[]
   currentWeekIndex: number
 }

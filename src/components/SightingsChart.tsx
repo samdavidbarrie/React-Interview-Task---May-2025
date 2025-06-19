@@ -10,6 +10,8 @@ import {
 import { Card } from '../layout'
 import { CustomTooltip } from '../components/CustomTooltip'
 import type { WeekData } from '../types'
+import { CHART_RESPONSIVE } from '../responsive'
+import { useIsMobile } from '../useIsMobile'
 
 interface SightingsChartProps {
   weekData: WeekData[]
@@ -22,6 +24,21 @@ export function SightingsChart({
   weeks,
   currentWeekIndex,
 }: SightingsChartProps) {
+  const isMobile = useIsMobile()
+  // Ensure tuple for barRadius
+  const barRadius: [number, number, number, number] = isMobile
+    ? (CHART_RESPONSIVE.barRadius.mobile as [number, number, number, number])
+    : (CHART_RESPONSIVE.barRadius.desktop as [number, number, number, number])
+  // AnimationTiming type for animationEasing
+  const animationDuration = isMobile
+    ? CHART_RESPONSIVE.animationDuration.mobile
+    : CHART_RESPONSIVE.animationDuration.desktop
+  const animationEasing: 'ease' | 'ease-in' | 'ease-out' | 'linear' = isMobile
+    ? 'linear'
+    : 'ease-out'
+  const yAxisTicks = isMobile
+    ? CHART_RESPONSIVE.yAxisTicks.mobile
+    : CHART_RESPONSIVE.yAxisTicks.desktop
   return (
     <Card>
       <ResponsiveContainer width="100%" height={300}>
@@ -45,6 +62,7 @@ export function SightingsChart({
             tick={{ fill: '#cbd5e1', fontSize: 14, fontWeight: 500 }}
             axisLine={{ stroke: '#475569' }}
             tickLine={false}
+            tickCount={yAxisTicks}
           />
           <Tooltip
             content={
@@ -58,9 +76,12 @@ export function SightingsChart({
           <Bar
             dataKey="sightings"
             fill="#38bdf8"
-            radius={[6, 6, 0, 0]} // Slightly rounded
+            radius={barRadius}
             className="shadow-md"
             maxBarSize={48}
+            isAnimationActive={true}
+            animationDuration={animationDuration}
+            animationEasing={animationEasing}
           />
         </BarChart>
       </ResponsiveContainer>
