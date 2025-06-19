@@ -17,6 +17,15 @@ function getWeekRange(monday: string) {
   return `${formatDate(start)} to ${formatDate(end)}`
 }
 
+function getFriendlyWeekRange(monday: string) {
+  const start = parse(monday, DATE_FORMAT_DISPLAY, new Date())
+  if (!isValid(start)) return ''
+  const end = addDays(start, 6)
+  const startStr = format(start, 'MMM d')
+  const endStr = format(end, 'MMM d, yyyy')
+  return `${startStr} – ${endStr}`
+}
+
 function App() {
   const dispatch = useAppDispatch()
   const { weeks, grouped, currentWeekIndex, loading, error } = useAppSelector(
@@ -71,8 +80,13 @@ function App() {
       <h1 className="text-4xl font-bold mb-2 leading-tight">
         UFO Sightings Dashboard
       </h1>
-      <div className="mb-4 text-gray-300">
-        Week: {getWeekRange(weeks[currentWeekIndex])}
+      <div className="mb-4 text-gray-300 text-lg flex items-center justify-center gap-2">
+        <span role="img" aria-label="calendar">
+          📅{' '}
+        </span>
+        <span className="font-semibold text-green-300">
+          {getFriendlyWeekRange(weeks[currentWeekIndex])}
+        </span>
       </div>
       <SightingsChart
         weekData={weekData}

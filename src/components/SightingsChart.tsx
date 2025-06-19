@@ -58,7 +58,7 @@ export function SightingsChart({
           <Bar
             dataKey="sightings"
             fill="#38bdf8"
-            radius={[6, 6, 0, 0]}
+            radius={[6, 6, 0, 0]} // Slightly rounded
             className="shadow-md"
             maxBarSize={48}
           />

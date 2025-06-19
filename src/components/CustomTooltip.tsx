@@ -27,7 +27,7 @@ export function CustomTooltip({
           backgroundColor: '#1e293b',
           opacity: 1,
           pointerEvents: 'auto',
-          borderRadius: '0.75rem', // matches Tailwind's rounded-xl
+          borderRadius: '0.5rem', // matches Tailwind's rounded-lg
           padding: '0.75rem 1.5rem', // matches Tailwind's px-6 py-3
         }}
         className="text-white shadow-lg text-sm flex flex-col space-y-1 min-w-[120px]"

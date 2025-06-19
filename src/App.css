@@ -40,3 +40,14 @@
 .read-the-docs {
   color: #888;
 }
+
+/* UFO SVG size override for layout */
+.ufo-svg-fab {
+  width: 64px !important;
+  height: 64px !important;
+  max-width: 64px !important;
+  max-height: 64px !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  object-fit: contain;
+}
