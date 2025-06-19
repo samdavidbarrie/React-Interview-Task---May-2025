@@ -72,4 +72,21 @@ describe('App', () => {
       screen.getByRole('button', { name: /select week/i }),
     ).toBeInTheDocument()
   })
+  it('renders an error message if fetch fails', async () => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: false,
+        status: 500,
+        headers: { 'Content-type': 'application/json' },
+        json: async () => ({}),
+      }),
+    ) as unknown as typeof fetch
+
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>,
+    )
+    expect(await screen.findByText(/failed to fetch data/i)).toBeInTheDocument()
+  })
 })
