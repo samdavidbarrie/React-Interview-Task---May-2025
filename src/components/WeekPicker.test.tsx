@@ -24,9 +24,11 @@ describe('WeekPicker', () => {
         grouped={grouped}
         currentWeekIndex={0}
         onSelect={onSelect}
-      />
+      />,
     )
-    const trigger = screen.getByRole('button', { name: new RegExp(getFriendlyWeekRange(weeks[0]), 'i') })
+    const trigger = screen.getByRole('button', {
+      name: new RegExp(getFriendlyWeekRange(weeks[0]), 'i'),
+    })
     expect(trigger).toBeInTheDocument()
   })
 
@@ -37,12 +39,14 @@ describe('WeekPicker', () => {
         grouped={grouped}
         currentWeekIndex={0}
         onSelect={onSelect}
-      />
+      />,
     )
     fireEvent.click(screen.getByRole('button'))
     const dropdown = screen.getByRole('list')
     weeks.forEach((week) => {
-      expect(within(dropdown).getAllByText(getFriendlyWeekRange(week))[0]).toBeInTheDocument()
+      expect(
+        within(dropdown).getAllByText(getFriendlyWeekRange(week))[0],
+      ).toBeInTheDocument()
     })
     expect(within(dropdown).getByText('(5 sightings)')).toBeInTheDocument()
     expect(within(dropdown).getByText('(12 sightings)')).toBeInTheDocument()
@@ -55,7 +59,7 @@ describe('WeekPicker', () => {
         grouped={grouped}
         currentWeekIndex={0}
         onSelect={onSelect}
-      />
+      />,
     )
     // Open dropdown
     fireEvent.click(screen.getByRole('button'))

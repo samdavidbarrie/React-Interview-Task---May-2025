@@ -25,7 +25,10 @@ function App() {
       if (e.key === 'ArrowLeft' && currentWeekIndex > 0) {
         dispatch(setCurrentWeekIndex(currentWeekIndex - 1))
         e.preventDefault()
-      } else if (e.key === 'ArrowRight' && currentWeekIndex < weeks.length - 1) {
+      } else if (
+        e.key === 'ArrowRight' &&
+        currentWeekIndex < weeks.length - 1
+      ) {
         dispatch(setCurrentWeekIndex(currentWeekIndex + 1))
         e.preventDefault()
       }

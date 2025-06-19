@@ -33,7 +33,10 @@ export const WeekPicker: React.FC<WeekPickerProps> = ({
         aria-label="Select week"
       >
         {getFriendlyWeekRange(weeks[currentWeekIndex])}
-        <span className={`transition-transform duration-200 ${showDropdown ? 'rotate-180' : ''}`} aria-hidden="true">
+        <span
+          className={`transition-transform duration-200 ${showDropdown ? 'rotate-180' : ''}`}
+          aria-hidden="true"
+        >
           ▼
         </span>
       </button>
@@ -47,7 +50,7 @@ export const WeekPicker: React.FC<WeekPickerProps> = ({
           {weeks.map((week: string, idx: number) => {
             const totalSightings = (grouped[week] || []).reduce(
               (sum: number, s: { sightings: number }) => sum + s.sightings,
-              0
+              0,
             )
             return (
               <li
@@ -63,7 +66,9 @@ export const WeekPicker: React.FC<WeekPickerProps> = ({
                 }}
               >
                 <span>{getFriendlyWeekRange(week)}</span>
-                <span className="ml-2 text-xs text-gray-400">({totalSightings} sightings)</span>
+                <span className="ml-2 text-xs text-gray-400">
+                  ({totalSightings} sightings)
+                </span>
               </li>
             )
           })}
