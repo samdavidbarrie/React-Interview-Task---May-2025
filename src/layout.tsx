@@ -18,7 +18,7 @@ export function Container({ children }: { children: ReactNode }) {
         />
       </div>
       <div
-        className="w-full"
+        className="w-full pt-8 sm:pt-8"
         style={{
           zIndex: 1,
           width: '100%',

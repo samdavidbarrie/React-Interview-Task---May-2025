@@ -9,10 +9,10 @@ export function Header() {
     (state: RootState) => state.sightings,
   )
   return (
-    <h1 className={TITLE}>
-      UFO Sightings{!isMobile && ' Dashboard'}
+    <div className="flex flex-col items-center">
+      <h1 className={TITLE}>UFO Sightings{!isMobile && ' Dashboard'}</h1>
       {!isMobile && weeks.length > 0 && grouped[weeks[currentWeekIndex]] && (
-        <span className="ml-2 text-xs text-gray-400 block font-normal">
+        <span className="mt-2 text-xs text-gray-400 block font-normal">
           {grouped[weeks[currentWeekIndex]].reduce(
             (sum, s) => sum + s.sightings,
             0,
@@ -20,6 +20,6 @@ export function Header() {
           sightings this week
         </span>
       )}
-    </h1>
+    </div>
   )
 }
