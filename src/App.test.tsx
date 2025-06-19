@@ -68,6 +68,8 @@ describe('App', () => {
     expect(
       await screen.findByText(/ufo sightings dashboard/i),
     ).toBeInTheDocument()
-    expect(screen.getByText(/week:/i)).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /select week/i }),
+    ).toBeInTheDocument()
   })
 })

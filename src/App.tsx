@@ -1,30 +1,14 @@
 import { useEffect } from 'react'
-import { addDays, isValid, parse, format } from 'date-fns'
+import { addDays, parse, format } from 'date-fns'
 import './App.css'
 import { Container } from './layout'
 import { SightingsChart } from './components/SightingsChart'
 import { WeekNavigation } from './components/WeekNavigation'
 import { DATE_FORMAT_API, DATE_FORMAT_DISPLAY, daysOfWeek } from './constants'
-import { formatDate } from './dateUtils'
 import type { WeekData } from './types'
 import { useAppDispatch, useAppSelector } from './store/hooks'
 import { fetchSightings, setCurrentWeekIndex } from './store/sightingsSlice'
-
-function getWeekRange(monday: string) {
-  const start = parse(monday, DATE_FORMAT_DISPLAY, new Date())
-  if (!isValid(start)) return ''
-  const end = addDays(start, 6)
-  return `${formatDate(start)} to ${formatDate(end)}`
-}
-
-function getFriendlyWeekRange(monday: string) {
-  const start = parse(monday, DATE_FORMAT_DISPLAY, new Date())
-  if (!isValid(start)) return ''
-  const end = addDays(start, 6)
-  const startStr = format(start, 'MMM d')
-  const endStr = format(end, 'MMM d, yyyy')
-  return `${startStr} – ${endStr}`
-}
+import { WeekPicker } from './components/WeekPicker'
 
 function App() {
   const dispatch = useAppDispatch()
@@ -35,6 +19,20 @@ function App() {
   useEffect(() => {
     dispatch(fetchSightings())
   }, [dispatch])
+
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft' && currentWeekIndex > 0) {
+        dispatch(setCurrentWeekIndex(currentWeekIndex - 1))
+        e.preventDefault()
+      } else if (e.key === 'ArrowRight' && currentWeekIndex < weeks.length - 1) {
+        dispatch(setCurrentWeekIndex(currentWeekIndex + 1))
+        e.preventDefault()
+      }
+    }
+    window.addEventListener('keydown', handleGlobalKeyDown)
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown)
+  }, [currentWeekIndex, weeks.length, dispatch])
 
   let weekData: WeekData[] = []
   if (weeks.length) {
@@ -80,13 +78,16 @@ function App() {
       <h1 className="text-4xl font-bold mb-2 leading-tight">
         UFO Sightings Dashboard
       </h1>
-      <div className="mb-4 text-gray-300 text-lg flex items-center justify-center gap-2">
+      <div className="mb-4 text-gray-300 text-lg flex items-center justify-center gap-4 relative">
         <span role="img" aria-label="calendar">
-          📅{' '}
+          📅
         </span>
-        <span className="font-semibold text-green-300">
-          {getFriendlyWeekRange(weeks[currentWeekIndex])}
-        </span>
+        <WeekPicker
+          weeks={weeks}
+          grouped={grouped}
+          currentWeekIndex={currentWeekIndex}
+          onSelect={(idx) => dispatch(setCurrentWeekIndex(idx))}
+        />
       </div>
       <SightingsChart
         weekData={weekData}
@@ -99,6 +100,19 @@ function App() {
         onPrev={() => dispatch(setCurrentWeekIndex(currentWeekIndex - 1))}
         onNext={() => dispatch(setCurrentWeekIndex(currentWeekIndex + 1))}
       />
+      <div className="flex justify-center mt-2 mb-4">
+        <span className="text-gray-400 text-sm flex items-center gap-1 select-none">
+          <span className="font-bold text-green-300">Pssst…</span>
+          <span>Use arrow keys</span>
+          <span role="img" aria-label="left arrow">
+            ⬅️
+          </span>
+          <span role="img" aria-label="right arrow">
+            ➡️
+          </span>
+          <span>to change week</span>
+        </span>
+      </div>
     </Container>
   )
 }
