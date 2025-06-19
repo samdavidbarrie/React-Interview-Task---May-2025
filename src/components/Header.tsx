@@ -1,5 +1,5 @@
 import { TITLE } from '../classNames'
-import { useIsMobile } from '../useIsMobile'
+import { useIsMobile } from '../hooks/useIsMobile'
 import type { RootState } from '../store'
 import { useAppSelector } from '../store/hooks'
 

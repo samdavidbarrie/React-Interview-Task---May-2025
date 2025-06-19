@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from 'react'
 import { getFriendlyWeekRange } from '../dateUtils'
 import type { Sighting } from '../types'
-import { useIsMobile } from '../useIsMobile'
+import { useIsMobile } from '../hooks/useIsMobile'
 import { DROPDOWN_BTN, DROPDOWN_LIST, DROPDOWN_ITEM } from '../classNames'
 
 interface WeekPickerProps {

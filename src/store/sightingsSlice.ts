@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { Sighting } from '../types'
 import { groupByWeek } from '../constants'
+import { fetchSightingsApi } from '../api'
 
 export interface SightingsState {
   data: Sighting[]
@@ -23,11 +24,7 @@ const initialState: SightingsState = {
 
 export const fetchSightings = createAsyncThunk(
   'sightings/fetchSightings',
-  async () => {
-    const res = await fetch('https://my-json-server.typicode.com/Louis-Procode/ufo-Sightings/ufoSightings')
-    if (!res.ok) throw new Error('Failed to fetch data')
-    return (await res.json()) as Sighting[]
-  }
+  async () => fetchSightingsApi()
 )
 
 const sightingsSlice = createSlice({

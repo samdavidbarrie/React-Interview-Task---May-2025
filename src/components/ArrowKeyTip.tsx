@@ -1,4 +1,4 @@
-import { useIsMobile } from '../useIsMobile'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 export function ArrowKeyTip() {
   const isMobile = useIsMobile()

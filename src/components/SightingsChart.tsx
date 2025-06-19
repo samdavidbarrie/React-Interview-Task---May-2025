@@ -11,7 +11,7 @@ import { Card } from '../layout'
 import { CustomTooltip } from '../components/CustomTooltip'
 import type { WeekData } from '../types'
 import { CHART_RESPONSIVE } from '../responsive'
-import { useIsMobile } from '../useIsMobile'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 interface SightingsChartProps {
   weekData: WeekData[]
