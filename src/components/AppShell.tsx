@@ -1,13 +1,29 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
+import { BREAKPOINT_SM } from '../classNames'
 
-interface AppShellProps {
-  children: ReactNode
-}
-
-export function AppShell({ children }: AppShellProps) {
+export function AppShell({ children }: { children: ReactNode }) {
+  // Responsive: remove border/maxWidth on mobile
   return (
-    <div className="bg-slate-800 rounded-xl p-4 shadow-lg w-full h-full">
-      {children}
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-950 to-black text-white flex flex-col items-center p-0 sm:p-4 font-sans leading-[1.5] font-normal relative">
+      <div className="w-full flex justify-center absolute top-2 sm:top-4 left-0 z-0 pointer-events-none">
+        <img
+          src="/ufo.svg"
+          alt="UFO"
+          className="ufo-svg-fab opacity-80 animate-bounce"
+          style={{ marginLeft: '16px' }}
+        />
+      </div>
+      <div
+        className="w-full pt-8 sm:pt-8"
+        style={{
+          zIndex: 1,
+          width: '100%',
+          maxWidth: BREAKPOINT_SM,
+          margin: '48px auto 0 auto',
+        }}
+      >
+        {children}
+      </div>
     </div>
   )
 }
