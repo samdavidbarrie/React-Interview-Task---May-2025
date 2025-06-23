@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { addDays, parse, format } from 'date-fns'
 import './App.css'
-import { Container } from './layout'
+import { AppShell } from './components/AppShell'
 import { Header } from './components/Header'
 import { WeekPickerRow } from './components/WeekPickerRow'
 import { ArrowKeyTip } from './components/ArrowKeyTip'
@@ -59,12 +59,12 @@ function App() {
   }
 
   return (
-    <Container>
+    <AppShell>
       <Header />
       <WeekPickerRow />
       <MainContent weekData={weekData} />
       <ArrowKeyTip />
-    </Container>
+    </AppShell>
   )
 }
 

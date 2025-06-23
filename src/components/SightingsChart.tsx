@@ -7,11 +7,12 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from 'recharts'
-import { Card } from '../layout'
+import { AppShell } from './AppShell'
 import { CustomTooltip } from '../components/CustomTooltip'
 import type { WeekData } from '../types'
 import { CHART_RESPONSIVE } from '../responsive'
 import { useIsMobile } from '../hooks/useIsMobile'
+import { AXIS_LINE_PROPS, TICK_PROPS } from '../chartProps'
 
 interface SightingsChartProps {
   weekData: WeekData[]
@@ -40,7 +41,7 @@ export function SightingsChart({
     ? CHART_RESPONSIVE.yAxisTicks.mobile
     : CHART_RESPONSIVE.yAxisTicks.desktop
   return (
-    <Card>
+    <AppShell>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart
           data={weekData}
@@ -51,16 +52,16 @@ export function SightingsChart({
             dataKey="day"
             stroke="#cbd5e1"
             className="text-sm font-medium"
-            tick={{ fill: '#cbd5e1', fontSize: 14, fontWeight: 500 }}
-            axisLine={{ stroke: '#475569' }}
+            tick={TICK_PROPS}
+            axisLine={AXIS_LINE_PROPS}
             tickLine={false}
           />
           <YAxis
             allowDecimals={false}
             stroke="#cbd5e1"
             className="text-sm font-medium"
-            tick={{ fill: '#cbd5e1', fontSize: 14, fontWeight: 500 }}
-            axisLine={{ stroke: '#475569' }}
+            tick={TICK_PROPS}
+            axisLine={AXIS_LINE_PROPS}
             tickLine={false}
             tickCount={yAxisTicks}
           />
@@ -85,6 +86,6 @@ export function SightingsChart({
           />
         </BarChart>
       </ResponsiveContainer>
-    </Card>
+    </AppShell>
   )
 }
