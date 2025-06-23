@@ -1,14 +1,15 @@
 // src/responsive.ts
 // Centralized responsive constants for breakpoints and chart tweaks
+import { BREAKPOINT_SM } from './classNames'
 
 export const BREAKPOINTS = {
-  mobile: 640, // px, matches Tailwind's sm
+  mobile: BREAKPOINT_SM, // px, matches Tailwind's sm
 }
 
 export const CHART_RESPONSIVE = {
   barRadius: {
-    mobile: [2, 2, 0, 0],
-    desktop: [6, 6, 0, 0],
+    mobile: [2, 2, 0, 0] as const,
+    desktop: [6, 6, 0, 0] as const,
   },
   animationDuration: {
     mobile: 300,

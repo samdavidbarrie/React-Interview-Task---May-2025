@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { CARD } from './classNames'
+import { CARD, BREAKPOINT_SM } from './classNames'
 
 export function Card({ children }: { children: ReactNode }) {
   return <div className={CARD}>{children}</div>
@@ -22,7 +22,7 @@ export function Container({ children }: { children: ReactNode }) {
         style={{
           zIndex: 1,
           width: '100%',
-          maxWidth: 640,
+          maxWidth: BREAKPOINT_SM,
           margin: '48px auto 0 auto',
         }}
       >

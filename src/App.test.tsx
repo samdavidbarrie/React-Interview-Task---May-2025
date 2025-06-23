@@ -68,8 +68,15 @@ describe('App', () => {
         <App />
       </Provider>,
     )
+    // Use a function matcher to match text across element boundaries
     expect(
-      await screen.findByText(/ufo sightings dashboard/i),
+      await screen.findByText(
+        (_content, node) => {
+          const text = node?.textContent?.toLowerCase() || '';
+          return text.includes('ufo sightings') && text.includes('dashboard');
+        },
+        { selector: 'h1', exact: false }
+      ),
     ).toBeInTheDocument()
     expect(
       screen.getByRole('button', { name: /select week/i }),

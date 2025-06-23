@@ -1,4 +1,5 @@
 import type { FC } from 'react'
+import { NAV_BUTTON } from '../classNames'
 
 interface WeekNavigationProps {
   currentWeekIndex: number
@@ -15,14 +16,14 @@ export const WeekNavigation: FC<WeekNavigationProps> = ({
 }) => (
   <div className="flex justify-center items-center space-x-4">
     <button
-      className="rounded bg-gray-700 px-4 py-2 text-base font-semibold text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
+      className={NAV_BUTTON}
       onClick={onPrev}
       disabled={currentWeekIndex === 0}
     >
       Previous Week
     </button>
     <button
-      className="rounded bg-gray-700 px-4 py-2 text-base font-semibold text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
+      className={NAV_BUTTON}
       onClick={onNext}
       disabled={currentWeekIndex === weeksCount - 1}
     >

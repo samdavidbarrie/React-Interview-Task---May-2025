@@ -27,8 +27,8 @@ export function SightingsChart({
   const isMobile = useIsMobile()
   // Ensure tuple for barRadius
   const barRadius: [number, number, number, number] = isMobile
-    ? (CHART_RESPONSIVE.barRadius.mobile as [number, number, number, number])
-    : (CHART_RESPONSIVE.barRadius.desktop as [number, number, number, number])
+    ? [...CHART_RESPONSIVE.barRadius.mobile] as [number, number, number, number]
+    : [...CHART_RESPONSIVE.barRadius.desktop] as [number, number, number, number]
   // AnimationTiming type for animationEasing
   const animationDuration = isMobile
     ? CHART_RESPONSIVE.animationDuration.mobile
